@@ -128,7 +128,7 @@ export const submitProgressService = async (
         });
         
         // Issue Credential and Certificate
-        const { issueCredential } = await import("./credential.service");
+        const { issueCredential } = await import("./credential.service.js");
         await issueCredential(userId, courseId, score ?? 100);
     }
 

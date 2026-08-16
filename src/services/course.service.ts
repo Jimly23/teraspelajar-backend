@@ -20,7 +20,10 @@ export const createCourseService = async (
         throw new Error("Course slug already exists");
     }
 
-    const course = await createCourse(data);
+    const course = await createCourse({
+        ...data,
+        category: data.category ?? undefined,
+    });
 
     return course;
 };
