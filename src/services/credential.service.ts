@@ -1,8 +1,8 @@
-import { prisma } from "../config/database";
-import { generateCertificatePDF } from "../utils/pdf.util";
-import { calculatePdfHash, hashToHex } from "../utils/hash.util";
-import { issueCredentialOnChain, revokeCredentialOnChain } from "./blockchain/solana.service";
-import { generateVerificationQR } from "../utils/qrcode.util";
+import { prisma } from "../config/database.js";
+import { generateCertificatePDF } from "../utils/pdf.util.js";
+import { calculatePdfHash, hashToHex } from "../utils/hash.util.js";
+import { issueCredentialOnChain, revokeCredentialOnChain } from "./blockchain/solana.service.js";
+import { generateVerificationQR } from "../utils/qrcode.util.js";
 import path from "path";
 
 export const issueCredential = async (userId: number, courseId: number, score: number) => {

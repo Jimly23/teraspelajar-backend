@@ -7,9 +7,9 @@ import {
     deleteCourse,
     updateCourse,
     findCourseDetailById,
-} from "../repositories/course.repository";
+} from "../repositories/course.repository.js";
 
-import { CreateCourseInput, UpdateCourseInput } from "../validators/course.validator";
+import { CreateCourseInput, UpdateCourseInput } from "../validators/course.validator.js";
 
 export const createCourseService = async (
     data: CreateCourseInput

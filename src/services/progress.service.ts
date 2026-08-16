@@ -1,8 +1,8 @@
-import { getCourseProgress, upsertLearningProgress } from "../repositories/progress.repository";
-import { findCourseDetailById } from "../repositories/course.repository";
-import { findEnrollment, updateEnrollmentProgress } from "../repositories/enrollment.repository";
-import { LearningItemType } from "../generated/prisma/client";
-import { prisma } from "../config/database";
+import { getCourseProgress, upsertLearningProgress } from "../repositories/progress.repository.js";
+import { findCourseDetailById } from "../repositories/course.repository.js";
+import { findEnrollment, updateEnrollmentProgress } from "../repositories/enrollment.repository.js";
+import { LearningItemType } from "../generated/prisma/client.js";
+import { prisma } from "../config/database.js";
 
 export const getCourseProgressService = async (userId: number, courseId: number) => {
     const progress = await getCourseProgress(userId, courseId);
@@ -24,12 +24,12 @@ export const getCourseProgressService = async (userId: number, courseId: number)
         
         let allLessonsCompleted = true;
         for (const lesson of lessons) {
-            const isCompleted = progress.some(p => p.itemType === "LESSON" && p.itemId === lesson.id && p.passed);
+            const isCompleted = progress.some((p: any) => p.itemType === "LESSON" && p.itemId === lesson.id && p.passed);
             if (!isCompleted) allLessonsCompleted = false;
         }
 
         const quizPassed = quiz 
-            ? progress.some(p => p.itemType === "QUIZ" && p.itemId === quiz.id && p.passed)
+            ? progress.some((p: any) => p.itemType === "QUIZ" && p.itemId === quiz.id && p.passed)
             : true;
 
         const isModuleCompleted = allLessonsCompleted && quizPassed;
@@ -100,7 +100,7 @@ export const submitProgressService = async (
     }
 
     let totalItems = 0;
-    course.modules.forEach(mod => {
+    course.modules.forEach((mod: any) => {
         totalItems += mod.lessons.length;
         if (mod.quizzes.length > 0) totalItems += 1;
     });
@@ -143,12 +143,12 @@ export const submitProgressService = async (
         
         let allLessonsCompleted = true;
         for (const lesson of lessons) {
-            const isCompleted = allProgress.some(p => p.itemType === "LESSON" && p.itemId === lesson.id && p.passed);
+            const isCompleted = allProgress.some((p: any) => p.itemType === "LESSON" && p.itemId === lesson.id && p.passed);
             if (!isCompleted) allLessonsCompleted = false;
         }
 
         const quizPassed = quiz 
-            ? allProgress.some(p => p.itemType === "QUIZ" && p.itemId === quiz.id && p.passed)
+            ? allProgress.some((p: any) => p.itemType === "QUIZ" && p.itemId === quiz.id && p.passed)
             : true;
 
         const isModuleCompleted = allLessonsCompleted && quizPassed;
