@@ -1,0 +1,998 @@
+[
+  {
+    "name": "Register",
+    "method": "POST",
+    "url": "/api/auth/register",
+    "requiresToken": false,
+    "requestBody": {
+      "name": "New User",
+      "username": "newuser1786551226617",
+      "email": "new1786551226617@test.com",
+      "password": "Password_123"
+    },
+    "status": 201,
+    "responseBody": {
+      "success": true,
+      "message": "User registered successfully",
+      "data": {
+        "id": 5,
+        "name": "New User",
+        "username": "newuser1786551226617",
+        "email": "new1786551226617@test.com",
+        "role": "student",
+        "createdAt": "2026-08-12T16:13:47.037Z",
+        "updatedAt": "2026-08-12T16:13:47.037Z"
+      }
+    }
+  },
+  {
+    "name": "Get Current User (Me)",
+    "method": "GET",
+    "url": "/api/auth/me",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "data": {
+        "id": 1,
+        "name": "Jimly",
+        "username": "jimly",
+        "email": "jimly@gmail.com",
+        "role": "student",
+        "createdAt": "2026-08-11T14:41:19.033Z",
+        "updatedAt": "2026-08-11T14:41:19.033Z"
+      }
+    }
+  },
+  {
+    "name": "Get All Courses",
+    "method": "GET",
+    "url": "/api/courses",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Courses retrieved successfully",
+      "data": [
+        {
+          "id": 4,
+          "title": "Html Css Javascript professional",
+          "slug": "html-css-javascript-professional",
+          "description": "alakae belajar html css javasckript dasar",
+          "thumbnail": "https://localhost:3001/dataaa",
+          "level": "BEGINNER",
+          "status": "PUBLISHED",
+          "createdAt": "2026-08-11T19:20:06.785Z",
+          "updatedAt": "2026-08-11T19:20:36.081Z"
+        },
+        {
+          "id": 3,
+          "title": "Fullstack Nextjs",
+          "slug": "fullstack-nextjs",
+          "description": "belajar fullstack menggunakakn nextjs dan tailwind css",
+          "thumbnail": "https://localhost:3001/data",
+          "level": "BEGINNER",
+          "status": "PUBLISHED",
+          "createdAt": "2026-08-11T19:18:02.094Z",
+          "updatedAt": "2026-08-11T19:18:02.094Z"
+        },
+        {
+          "id": 2,
+          "title": "Belajar hahahaha",
+          "slug": "belajar-pemrograman-web",
+          "description": "Belajar pemrograman web modern menggunakan HTML, CSS, JavaScript, dan framework.",
+          "thumbnail": "https://example.com/images/web-programming.jpg",
+          "level": "INTERMEDIATE",
+          "status": "PUBLISHED",
+          "createdAt": "2026-08-11T17:26:58.695Z",
+          "updatedAt": "2026-08-11T17:34:37.100Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Get Course By ID",
+    "method": "GET",
+    "url": "/api/courses/2",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Course retrieved successfully",
+      "data": {
+        "id": 2,
+        "title": "Belajar hahahaha",
+        "slug": "belajar-pemrograman-web",
+        "description": "Belajar pemrograman web modern menggunakan HTML, CSS, JavaScript, dan framework.",
+        "thumbnail": "https://example.com/images/web-programming.jpg",
+        "level": "INTERMEDIATE",
+        "status": "PUBLISHED",
+        "createdAt": "2026-08-11T17:26:58.695Z",
+        "updatedAt": "2026-08-11T17:34:37.100Z"
+      }
+    }
+  },
+  {
+    "name": "Get Course By Slug",
+    "method": "GET",
+    "url": "/api/courses/slug/belajar-pemrograman-web",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Course retrieved successfully",
+      "data": {
+        "id": 2,
+        "title": "Belajar hahahaha",
+        "slug": "belajar-pemrograman-web",
+        "description": "Belajar pemrograman web modern menggunakan HTML, CSS, JavaScript, dan framework.",
+        "thumbnail": "https://example.com/images/web-programming.jpg",
+        "level": "INTERMEDIATE",
+        "status": "PUBLISHED",
+        "createdAt": "2026-08-11T17:26:58.695Z",
+        "updatedAt": "2026-08-11T17:34:37.100Z"
+      }
+    }
+  },
+  {
+    "name": "Create Course (Admin)",
+    "method": "POST",
+    "url": "/api/courses",
+    "requiresToken": true,
+    "requestBody": {
+      "title": "New Course",
+      "slug": "new-course-1786551227311",
+      "description": "desc",
+      "level": "BEGINNER",
+      "status": "DRAFT"
+    },
+    "status": 400,
+    "responseBody": {
+      "success": false,
+      "message": "Validation failed",
+      "errors": [
+        {
+          "field": "description",
+          "message": "Description must be at least 10 characters"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Update Course (Admin)",
+    "method": "PUT",
+    "url": "/api/courses/2",
+    "requiresToken": true,
+    "requestBody": {
+      "title": "Updated Course Title"
+    },
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Course updated successfully",
+      "data": {
+        "id": 2,
+        "title": "Updated Course Title",
+        "slug": "belajar-pemrograman-web",
+        "description": "Belajar pemrograman web modern menggunakan HTML, CSS, JavaScript, dan framework.",
+        "thumbnail": "https://example.com/images/web-programming.jpg",
+        "level": "INTERMEDIATE",
+        "status": "PUBLISHED",
+        "createdAt": "2026-08-11T17:26:58.695Z",
+        "updatedAt": "2026-08-12T16:13:47.456Z"
+      }
+    }
+  },
+  {
+    "name": "Delete Course (Admin)",
+    "method": "DELETE",
+    "url": "/api/courses/999999",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 404,
+    "responseBody": {
+      "success": false,
+      "message": "Course not found"
+    }
+  },
+  {
+    "name": "Get Modules",
+    "method": "GET",
+    "url": "/api/modules",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Modules retrieved successfully",
+      "data": [
+        {
+          "id": 1,
+          "courseId": 4,
+          "title": "HTML Dasar dan Semantik HTML",
+          "description": "Mempelajari dasar HTML",
+          "order": 1,
+          "createdAt": "2026-08-12T11:22:57.957Z",
+          "updatedAt": "2026-08-12T11:27:28.255Z"
+        },
+        {
+          "id": 4,
+          "courseId": 2,
+          "title": "Test Module",
+          "description": null,
+          "order": 1,
+          "createdAt": "2026-08-12T16:13:46.545Z",
+          "updatedAt": "2026-08-12T16:13:46.545Z"
+        },
+        {
+          "id": 3,
+          "courseId": 4,
+          "title": "CSS Dasar",
+          "description": "lorem ipsum dolor sit ament",
+          "order": 2,
+          "createdAt": "2026-08-12T15:42:11.069Z",
+          "updatedAt": "2026-08-12T15:42:11.069Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Get Module By ID",
+    "method": "GET",
+    "url": "/api/modules/4",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Module retrieved successfully",
+      "data": {
+        "id": 4,
+        "courseId": 2,
+        "title": "Test Module",
+        "description": null,
+        "order": 1,
+        "createdAt": "2026-08-12T16:13:46.545Z",
+        "updatedAt": "2026-08-12T16:13:46.545Z",
+        "lessons": [
+          {
+            "id": 3,
+            "moduleId": 4,
+            "title": "Test Lesson",
+            "description": null,
+            "content": null,
+            "videoUrl": null,
+            "order": 1,
+            "createdAt": "2026-08-12T16:13:46.566Z",
+            "updatedAt": "2026-08-12T16:13:46.566Z"
+          }
+        ],
+        "quizzes": [
+          {
+            "id": 3,
+            "moduleId": 4,
+            "title": "Test Quiz",
+            "description": null,
+            "createdAt": "2026-08-12T16:13:46.591Z",
+            "updatedAt": "2026-08-12T16:13:46.591Z"
+          }
+        ],
+        "quests": [
+          {
+            "id": 3,
+            "moduleId": 4,
+            "title": "Test Quest",
+            "description": null,
+            "createdAt": "2026-08-12T16:13:46.605Z",
+            "updatedAt": "2026-08-12T16:13:46.605Z"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "Get Modules by Course",
+    "method": "GET",
+    "url": "/api/modules/course/2",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Modules retrieved successfully",
+      "data": [
+        {
+          "id": 4,
+          "courseId": 2,
+          "title": "Test Module",
+          "description": null,
+          "order": 1,
+          "createdAt": "2026-08-12T16:13:46.545Z",
+          "updatedAt": "2026-08-12T16:13:46.545Z",
+          "lessons": [
+            {
+              "id": 3,
+              "moduleId": 4,
+              "title": "Test Lesson",
+              "description": null,
+              "content": null,
+              "videoUrl": null,
+              "order": 1,
+              "createdAt": "2026-08-12T16:13:46.566Z",
+              "updatedAt": "2026-08-12T16:13:46.566Z"
+            }
+          ],
+          "quizzes": [
+            {
+              "id": 3,
+              "moduleId": 4,
+              "title": "Test Quiz",
+              "description": null,
+              "createdAt": "2026-08-12T16:13:46.591Z",
+              "updatedAt": "2026-08-12T16:13:46.591Z"
+            }
+          ],
+          "quests": [
+            {
+              "id": 3,
+              "moduleId": 4,
+              "title": "Test Quest",
+              "description": null,
+              "createdAt": "2026-08-12T16:13:46.605Z",
+              "updatedAt": "2026-08-12T16:13:46.605Z"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "Create Module (Admin)",
+    "method": "POST",
+    "url": "/api/modules",
+    "requiresToken": true,
+    "requestBody": {
+      "courseId": 2,
+      "title": "New Module",
+      "order": 2
+    },
+    "status": 201,
+    "responseBody": {
+      "success": true,
+      "message": "Module created successfully",
+      "data": {
+        "id": 5,
+        "courseId": 2,
+        "title": "New Module",
+        "description": null,
+        "order": 2,
+        "createdAt": "2026-08-12T16:13:47.693Z",
+        "updatedAt": "2026-08-12T16:13:47.693Z"
+      }
+    }
+  },
+  {
+    "name": "Update Module (Admin)",
+    "method": "PATCH",
+    "url": "/api/modules/4",
+    "requiresToken": true,
+    "requestBody": {
+      "title": "Updated Module Title"
+    },
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Module updated successfully",
+      "data": {
+        "id": 4,
+        "courseId": 2,
+        "title": "Updated Module Title",
+        "description": null,
+        "order": 1,
+        "createdAt": "2026-08-12T16:13:46.545Z",
+        "updatedAt": "2026-08-12T16:13:47.850Z"
+      }
+    }
+  },
+  {
+    "name": "Delete Module (Admin)",
+    "method": "DELETE",
+    "url": "/api/modules/999999",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 404,
+    "responseBody": {
+      "success": false,
+      "message": "Module not found"
+    }
+  },
+  {
+    "name": "Get Lessons",
+    "method": "GET",
+    "url": "/api/lessons",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Lessons retrieved successfully",
+      "data": [
+        {
+          "id": 1,
+          "moduleId": 1,
+          "title": "Pengenalan HTML dan Struktur Dokumen",
+          "description": "Mempelajari dasar HTML dan struktur dokumen HTML",
+          "content": "HTML adalah bahasa markup untuk membuat struktur halaman web.",
+          "videoUrl": "https://youtube.com/watch?v=example",
+          "order": 1,
+          "createdAt": "2026-08-12T12:01:30.718Z",
+          "updatedAt": "2026-08-12T12:03:37.129Z"
+        },
+        {
+          "id": 3,
+          "moduleId": 4,
+          "title": "Test Lesson",
+          "description": null,
+          "content": null,
+          "videoUrl": null,
+          "order": 1,
+          "createdAt": "2026-08-12T16:13:46.566Z",
+          "updatedAt": "2026-08-12T16:13:46.566Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Get Lesson By ID",
+    "method": "GET",
+    "url": "/api/lessons/3",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Lesson retrieved successfully",
+      "data": {
+        "id": 3,
+        "moduleId": 4,
+        "title": "Test Lesson",
+        "description": null,
+        "content": null,
+        "videoUrl": null,
+        "order": 1,
+        "createdAt": "2026-08-12T16:13:46.566Z",
+        "updatedAt": "2026-08-12T16:13:46.566Z"
+      }
+    }
+  },
+  {
+    "name": "Get Lessons by Module",
+    "method": "GET",
+    "url": "/api/lessons/module/4",
+    "requiresToken": false,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Lessons retrieved successfully",
+      "data": [
+        {
+          "id": 3,
+          "moduleId": 4,
+          "title": "Test Lesson",
+          "description": null,
+          "content": null,
+          "videoUrl": null,
+          "order": 1,
+          "createdAt": "2026-08-12T16:13:46.566Z",
+          "updatedAt": "2026-08-12T16:13:46.566Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Create Lesson (Admin)",
+    "method": "POST",
+    "url": "/api/lessons",
+    "requiresToken": true,
+    "requestBody": {
+      "moduleId": 4,
+      "title": "New Lesson",
+      "order": 2
+    },
+    "status": 201,
+    "responseBody": {
+      "success": true,
+      "message": "Lesson created successfully",
+      "data": {
+        "id": 4,
+        "moduleId": 4,
+        "title": "New Lesson",
+        "description": null,
+        "content": null,
+        "videoUrl": null,
+        "order": 2,
+        "createdAt": "2026-08-12T16:13:47.933Z",
+        "updatedAt": "2026-08-12T16:13:47.933Z"
+      }
+    }
+  },
+  {
+    "name": "Update Lesson (Admin)",
+    "method": "PATCH",
+    "url": "/api/lessons/3",
+    "requiresToken": true,
+    "requestBody": {
+      "title": "Updated Lesson Title"
+    },
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Lesson updated successfully",
+      "data": {
+        "id": 3,
+        "moduleId": 4,
+        "title": "Updated Lesson Title",
+        "description": null,
+        "content": null,
+        "videoUrl": null,
+        "order": 1,
+        "createdAt": "2026-08-12T16:13:46.566Z",
+        "updatedAt": "2026-08-12T16:13:47.959Z"
+      }
+    }
+  },
+  {
+    "name": "Delete Lesson (Admin)",
+    "method": "DELETE",
+    "url": "/api/lessons/999999",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 404,
+    "responseBody": {
+      "success": false,
+      "message": "Lesson not found"
+    }
+  },
+  {
+    "name": "Get Quizzes",
+    "method": "GET",
+    "url": "/api/quizzes",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Quizzes retrieved successfully",
+      "data": [
+        {
+          "id": 3,
+          "moduleId": 4,
+          "title": "Test Quiz",
+          "description": null,
+          "createdAt": "2026-08-12T16:13:46.591Z",
+          "updatedAt": "2026-08-12T16:13:46.591Z"
+        },
+        {
+          "id": 1,
+          "moduleId": 1,
+          "title": "Quiz HTML Dasar - Basic",
+          "description": "Quiz untuk menguji pemahaman HTML dasar",
+          "createdAt": "2026-08-12T12:16:16.242Z",
+          "updatedAt": "2026-08-12T12:17:59.537Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Get Quiz By ID",
+    "method": "GET",
+    "url": "/api/quizzes/3",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Quiz retrieved successfully",
+      "data": {
+        "id": 3,
+        "moduleId": 4,
+        "title": "Test Quiz",
+        "description": null,
+        "createdAt": "2026-08-12T16:13:46.591Z",
+        "updatedAt": "2026-08-12T16:13:46.591Z"
+      }
+    }
+  },
+  {
+    "name": "Get Quizzes by Module",
+    "method": "GET",
+    "url": "/api/quizzes/module/4",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Quizzes retrieved successfully",
+      "data": [
+        {
+          "id": 3,
+          "moduleId": 4,
+          "title": "Test Quiz",
+          "description": null,
+          "createdAt": "2026-08-12T16:13:46.591Z",
+          "updatedAt": "2026-08-12T16:13:46.591Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Create Quiz (Admin)",
+    "method": "POST",
+    "url": "/api/quizzes",
+    "requiresToken": true,
+    "requestBody": {
+      "moduleId": 4,
+      "title": "New Quiz"
+    },
+    "status": 201,
+    "responseBody": {
+      "success": true,
+      "message": "Quiz created successfully",
+      "data": {
+        "id": 4,
+        "moduleId": 4,
+        "title": "New Quiz",
+        "description": null,
+        "createdAt": "2026-08-12T16:13:48.027Z",
+        "updatedAt": "2026-08-12T16:13:48.027Z"
+      }
+    }
+  },
+  {
+    "name": "Update Quiz (Admin)",
+    "method": "PATCH",
+    "url": "/api/quizzes/3",
+    "requiresToken": true,
+    "requestBody": {
+      "title": "Updated Quiz Title"
+    },
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Quiz updated successfully",
+      "data": {
+        "id": 3,
+        "moduleId": 4,
+        "title": "Updated Quiz Title",
+        "description": null,
+        "createdAt": "2026-08-12T16:13:46.591Z",
+        "updatedAt": "2026-08-12T16:13:48.055Z"
+      }
+    }
+  },
+  {
+    "name": "Delete Quiz (Admin)",
+    "method": "DELETE",
+    "url": "/api/quizzes/999999",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 404,
+    "responseBody": {
+      "success": false,
+      "message": "Quiz not found"
+    }
+  },
+  {
+    "name": "Get Quests",
+    "method": "GET",
+    "url": "/api/quests",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Quests retrieved successfully",
+      "data": [
+        {
+          "id": 3,
+          "moduleId": 4,
+          "title": "Test Quest",
+          "description": null,
+          "createdAt": "2026-08-12T16:13:46.605Z",
+          "updatedAt": "2026-08-12T16:13:46.605Z"
+        },
+        {
+          "id": 1,
+          "moduleId": 1,
+          "title": "Qbuilddd",
+          "description": "Quiz untuk menguji pemahaman HTML dasar",
+          "createdAt": "2026-08-12T12:57:23.648Z",
+          "updatedAt": "2026-08-12T12:59:44.408Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Get Quest By ID",
+    "method": "GET",
+    "url": "/api/quests/3",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Quest retrieved successfully",
+      "data": {
+        "id": 3,
+        "moduleId": 4,
+        "title": "Test Quest",
+        "description": null,
+        "createdAt": "2026-08-12T16:13:46.605Z",
+        "updatedAt": "2026-08-12T16:13:46.605Z"
+      }
+    }
+  },
+  {
+    "name": "Get Quests by Module",
+    "method": "GET",
+    "url": "/api/quests/module/4",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Module quests retrieved successfully",
+      "data": [
+        {
+          "id": 3,
+          "moduleId": 4,
+          "title": "Test Quest",
+          "description": null,
+          "createdAt": "2026-08-12T16:13:46.605Z",
+          "updatedAt": "2026-08-12T16:13:46.605Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Create Quest (Admin)",
+    "method": "POST",
+    "url": "/api/quests",
+    "requiresToken": true,
+    "requestBody": {
+      "moduleId": 4,
+      "title": "New Quest"
+    },
+    "status": 201,
+    "responseBody": {
+      "success": true,
+      "message": "Quest created successfully",
+      "data": {
+        "id": 4,
+        "moduleId": 4,
+        "title": "New Quest",
+        "description": null,
+        "createdAt": "2026-08-12T16:13:48.111Z",
+        "updatedAt": "2026-08-12T16:13:48.111Z"
+      }
+    }
+  },
+  {
+    "name": "Update Quest (Admin)",
+    "method": "PATCH",
+    "url": "/api/quests/3",
+    "requiresToken": true,
+    "requestBody": {
+      "title": "Updated Quest Title"
+    },
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Quest updated successfully",
+      "data": {
+        "id": 3,
+        "moduleId": 4,
+        "title": "Updated Quest Title",
+        "description": null,
+        "createdAt": "2026-08-12T16:13:46.605Z",
+        "updatedAt": "2026-08-12T16:13:48.137Z"
+      }
+    }
+  },
+  {
+    "name": "Delete Quest (Admin)",
+    "method": "DELETE",
+    "url": "/api/quests/999999",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 404,
+    "responseBody": {
+      "success": false,
+      "message": "Quest not found"
+    }
+  },
+  {
+    "name": "Get Exams",
+    "method": "GET",
+    "url": "/api/exams",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Exams retrieved successfully",
+      "data": [
+        {
+          "id": 1,
+          "courseId": 2,
+          "title": "Final Exam",
+          "description": "Ujian akhir course",
+          "duration": 15,
+          "passingScore": 80,
+          "createdAt": "2026-08-12T13:21:05.221Z",
+          "updatedAt": "2026-08-12T13:21:05.221Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Get Exam By ID",
+    "method": "GET",
+    "url": "/api/exams/1",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Exam retrieved successfully",
+      "data": {
+        "id": 1,
+        "courseId": 2,
+        "title": "Final Exam",
+        "description": "Ujian akhir course",
+        "duration": 15,
+        "passingScore": 80,
+        "createdAt": "2026-08-12T13:21:05.221Z",
+        "updatedAt": "2026-08-12T13:21:05.221Z"
+      }
+    }
+  },
+  {
+    "name": "Get Exams by Course",
+    "method": "GET",
+    "url": "/api/exams/course/2",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Course exams retrieved successfully",
+      "data": [
+        {
+          "id": 1,
+          "courseId": 2,
+          "title": "Final Exam",
+          "description": "Ujian akhir course",
+          "duration": 15,
+          "passingScore": 80,
+          "createdAt": "2026-08-12T13:21:05.221Z",
+          "updatedAt": "2026-08-12T13:21:05.221Z"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Create Exam (Admin)",
+    "method": "POST",
+    "url": "/api/exams",
+    "requiresToken": true,
+    "requestBody": {
+      "courseId": 2,
+      "title": "New Exam"
+    },
+    "status": 201,
+    "responseBody": {
+      "success": true,
+      "message": "Exam created successfully",
+      "data": {
+        "id": 2,
+        "courseId": 2,
+        "title": "New Exam",
+        "description": null,
+        "duration": null,
+        "passingScore": null,
+        "createdAt": "2026-08-12T16:13:48.355Z",
+        "updatedAt": "2026-08-12T16:13:48.355Z"
+      }
+    }
+  },
+  {
+    "name": "Update Exam (Admin)",
+    "method": "PATCH",
+    "url": "/api/exams/1",
+    "requiresToken": true,
+    "requestBody": {
+      "title": "Updated Exam Title"
+    },
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Exam updated successfully",
+      "data": {
+        "id": 1,
+        "courseId": 2,
+        "title": "Updated Exam Title",
+        "description": "Ujian akhir course",
+        "duration": 15,
+        "passingScore": 80,
+        "createdAt": "2026-08-12T13:21:05.221Z",
+        "updatedAt": "2026-08-12T16:13:48.379Z"
+      }
+    }
+  },
+  {
+    "name": "Delete Exam (Admin)",
+    "method": "DELETE",
+    "url": "/api/exams/999999",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 404,
+    "responseBody": {
+      "success": false,
+      "message": "Exam not found"
+    }
+  },
+  {
+    "name": "Get My Enrollments",
+    "method": "GET",
+    "url": "/api/enrollments/my",
+    "requiresToken": true,
+    "requestBody": null,
+    "status": 200,
+    "responseBody": {
+      "success": true,
+      "message": "Enrollments retrieved successfully",
+      "data": [
+        {
+          "id": 1,
+          "userId": 1,
+          "courseId": 2,
+          "status": "ENROLLED",
+          "progress": 40,
+          "enrolledAt": "2026-08-12T01:49:27.409Z",
+          "completedAt": null,
+          "course": {
+            "id": 2,
+            "title": "Updated Course Title",
+            "slug": "belajar-pemrograman-web",
+            "description": "Belajar pemrograman web modern menggunakan HTML, CSS, JavaScript, dan framework.",
+            "thumbnail": "https://example.com/images/web-programming.jpg",
+            "level": "INTERMEDIATE",
+            "status": "PUBLISHED",
+            "createdAt": "2026-08-11T17:26:58.695Z",
+            "updatedAt": "2026-08-12T16:13:47.456Z"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Enroll in Course",
+    "method": "POST",
+    "url": "/api/enrollments",
+    "requiresToken": true,
+    "requestBody": {
+      "courseId": 2
+    },
+    "status": 500,
+    "responseBody": {
+      "success": false,
+      "message": "Internal server error"
+    }
+  }
+]

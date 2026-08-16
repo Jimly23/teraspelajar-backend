@@ -1,0 +1,305 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum UserRole {
+  student
+  admin
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnrollmentStatus {
+  ENROLLED
+  COMPLETED
+  CANCELLED
+}
+
+enum CredentialStatus {
+  ACTIVE
+  REVOKED
+  PENDING
+  FAILED
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  username     String   @unique
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         UserRole @default(student)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  enrollments      Enrollment[]
+  learningProgress LearningProgress[]
+  credentials      Credential[]
+  certificates     Certificate[]
+
+  @@map("users")
+}
+
+model Course {
+  id          Int          @id @default(autoincrement())
+  title       String       @db.VarChar(255)
+  slug        String       @unique @db.VarChar(255)
+  description String       @db.Text
+  thumbnail   String?      @db.VarChar(500)
+  level       CourseLevel  @default(BEGINNER)
+  status      CourseStatus @default(DRAFT)
+  category    String?      @db.VarChar(100)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  enrollments      Enrollment[]
+  modules          Module[]
+  exams            Exam[]
+  learningProgress LearningProgress[]
+  credentials      Credential[]
+  certificates     Certificate[]
+
+  @@map("courses")
+}
+
+model Enrollment {
+  id          Int              @id @default(autoincrement())
+  userId      Int              @map("user_id")
+  courseId    Int              @map("course_id")
+  status      EnrollmentStatus @default(ENROLLED)
+  progress    Int              @default(0)
+  enrolledAt  DateTime         @default(now()) @map("enrolled_at")
+  completedAt DateTime?        @map("completed_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@map("enrollments")
+}
+
+model Module {
+  id          Int     @id @default(autoincrement())
+  courseId    Int     @map("course_id")
+  title       String
+  description String? @db.Text
+  order       Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+  quizzes Quiz[]
+
+  @@index([courseId])
+  @@map("modules")
+}
+
+model Lesson {
+  id          Int     @id @default(autoincrement())
+  moduleId    Int     @map("module_id")
+  title       String
+  description String? @db.Text
+  content     String? @db.Text
+  videoUrl    String? @map("video_url")
+  order       Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  module Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@index([moduleId])
+  @@map("lessons")
+}
+
+model Quiz {
+  id          Int     @id @default(autoincrement())
+  moduleId    Int     @map("module_id")
+  title       String
+  description String? @db.Text
+  passingScore Int     @default(70) @map("passing_score")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  module    Module         @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  questions QuizQuestion[]
+
+  @@index([moduleId])
+  @@map("quizzes")
+}
+
+model QuizQuestion {
+  id       Int    @id @default(autoincrement())
+  quizId   Int    @map("quiz_id")
+  question String @db.Text
+  order    Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  quiz    Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options QuizOption[]
+
+  @@index([quizId])
+  @@map("quiz_questions")
+}
+
+model QuizOption {
+  id         Int     @id @default(autoincrement())
+  questionId Int     @map("question_id")
+  option     String
+  isCorrect  Boolean @default(false) @map("is_correct")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  question QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
+  @@map("quiz_options")
+}
+
+
+model Exam {
+  id           Int      @id @default(autoincrement())
+  courseId     Int      @map("course_id")
+  title        String
+  description  String?  @db.Text
+  duration     Int?
+  passingScore Int?     @map("passing_score")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  course    Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  questions ExamQuestion[]
+
+  @@index([courseId])
+  @@map("exams")
+}
+
+model ExamQuestion {
+  id       Int    @id @default(autoincrement())
+  examId   Int    @map("exam_id")
+  question String @db.Text
+  order    Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  exam    Exam         @relation(fields: [examId], references: [id], onDelete: Cascade)
+  options ExamOption[]
+
+  @@index([examId])
+  @@map("exam_questions")
+}
+
+model ExamOption {
+  id         Int     @id @default(autoincrement())
+  questionId Int     @map("question_id")
+  option     String
+  isCorrect  Boolean @default(false) @map("is_correct")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  question ExamQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
+  @@map("exam_options")
+}
+
+enum LearningItemType {
+  LESSON
+  QUIZ
+  EXAM
+}
+
+model LearningProgress {
+  id          Int              @id @default(autoincrement())
+  userId      Int              @map("user_id")
+  courseId    Int              @map("course_id")
+  itemType    LearningItemType @map("item_type")
+  itemId      Int              @map("item_id")
+  score       Int?
+  passed      Boolean          @default(true)
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemType, itemId])
+  @@index([userId, courseId])
+  @@map("learning_progress")
+}
+
+model Credential {
+  id           Int              @id @default(autoincrement())
+  credentialId String           @unique @map("credential_id")
+  userId       Int              @map("user_id")
+  courseId     Int              @map("course_id")
+  score        Int
+  status       CredentialStatus @default(ACTIVE)
+  issuedAt     DateTime         @default(now()) @map("issued_at")
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course       Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  certificate  Certificate?
+
+  @@unique([userId, courseId])
+  @@index([credentialId])
+  @@map("credentials")
+}
+
+model Certificate {
+  id                Int              @id @default(autoincrement())
+  credentialId      Int              @unique @map("credential_id")
+  userId            Int              @map("user_id")
+  courseId          Int              @map("course_id")
+  certificateNumber String           @unique @map("certificate_number")
+  certificateUrl    String           @map("certificate_url")
+  status            CredentialStatus @default(ACTIVE)
+  issuedAt          DateTime         @default(now()) @map("issued_at")
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+
+  // Blockchain fields
+  certificateHash       String?   @map("certificate_hash") @db.VarChar(64)
+  blockchainNetwork     String?   @map("blockchain_network") @db.VarChar(20)
+  blockchainProgramId   String?   @map("blockchain_program_id") @db.VarChar(64)
+  blockchainPda         String?   @map("blockchain_pda") @db.VarChar(64)
+  blockchainTxSignature String?   @map("blockchain_tx_signature") @db.VarChar(128)
+  blockchainStatus      String?   @map("blockchain_status") @db.VarChar(20)
+  blockchainIssuedAt    DateTime? @map("blockchain_issued_at")
+
+  credential        Credential       @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course            Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([certificateNumber])
+  @@map("certificates")
+}
+
