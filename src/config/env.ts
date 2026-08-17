@@ -47,4 +47,10 @@ export const env = {
 
     FRONTEND_URL:
         process.env.FRONTEND_URL || "http://localhost:3000",
+
+    RESEND_API_KEY:
+        process.env.RESEND_API_KEY || "",
+
+    MAIL_FROM:
+        process.env.MAIL_FROM || "Teras Pelajar <admin@teraspelajar.com>",
 };

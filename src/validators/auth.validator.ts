@@ -40,6 +40,15 @@ export const loginSchema = z.object({
         .min(1, "Password is required"),
 });
 
+export const resendVerificationSchema = z.object({
+    email: z
+        .string()
+        .trim()
+        .email("Invalid email format"),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 
 export type LoginInput = z.infer<typeof loginSchema>;
+
+export type ResendVerificationInput = z.infer<typeof resendVerificationSchema>;

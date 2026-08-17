@@ -41,9 +41,45 @@ export class UserRepository {
         email: string;
         passwordHash: string;
         role: UserRole;
+        isVerified?: boolean;
+        verificationToken?: string;
+        verificationTokenExpiresAt?: Date;
     }) {
         return prisma.user.create({
-            data,
+            data: data as any, // Cast as any because the types in memory may not be fully synced yet
+        });
+    }
+
+    async findByVerificationToken(token: string) {
+        return prisma.user.findFirst({
+            where: {
+                verificationToken: token,
+            },
+        });
+    }
+
+    async verifyUserEmail(userId: number) {
+        return prisma.user.update({
+            where: { id: userId },
+            data: {
+                isVerified: true,
+                verificationToken: null,
+                verificationTokenExpiresAt: null,
+            } as any,
+        });
+    }
+
+    async updateVerificationToken(
+        userId: number,
+        token: string,
+        expiresAt: Date
+    ) {
+        return prisma.user.update({
+            where: { id: userId },
+            data: {
+                verificationToken: token,
+                verificationTokenExpiresAt: expiresAt,
+            } as any,
         });
     }
 }

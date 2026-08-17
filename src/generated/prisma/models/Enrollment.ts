@@ -516,10 +516,6 @@ export type EnumEnrollmentStatusFieldUpdateOperationsInput = {
   set?: $Enums.EnrollmentStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type EnrollmentCreateWithoutUserInput = {
   status?: $Enums.EnrollmentStatus
   progress?: number

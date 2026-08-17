@@ -435,10 +435,6 @@ export type QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput = {
   deleteMany?: Prisma.QuizOptionScalarWhereInput | Prisma.QuizOptionScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type QuizOptionCreateWithoutQuestionInput = {
   option: string
   isCorrect?: boolean

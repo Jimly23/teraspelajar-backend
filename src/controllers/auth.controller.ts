@@ -107,3 +107,48 @@ export const logout = async (
         message: "Logout successful",
     });
 };
+
+export async function verifyEmail(req: Request, res: Response) {
+    try {
+        const { token } = req.query;
+
+        if (!token || typeof token !== "string") {
+            return res.status(400).json({
+                success: false,
+                message: "Token verifikasi diperlukan",
+            });
+        }
+
+        await authService.verifyEmail(token);
+
+        return res.status(200).json({
+            success: true,
+            message: "Email berhasil diverifikasi",
+        });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Gagal memverifikasi email";
+        return res.status(400).json({
+            success: false,
+            message,
+        });
+    }
+}
+
+export async function resendVerification(req: Request, res: Response) {
+    try {
+        const { email } = req.body;
+
+        await authService.resendVerification(email);
+
+        return res.status(200).json({
+            success: true,
+            message: "Email verifikasi berhasil dikirim ulang",
+        });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Gagal mengirim ulang email verifikasi";
+        return res.status(400).json({
+            success: false,
+            message,
+        });
+    }
+}

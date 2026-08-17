@@ -5,6 +5,8 @@ import {
     login,
     me,
     logout,
+    verifyEmail,
+    resendVerification,
 } from "../controllers/auth.controller";
 
 import { authMiddleware } from "../middlewares/auth.middleware";
@@ -14,6 +16,7 @@ import { validate } from "../middlewares/validate.middleware";
 import {
     registerSchema,
     loginSchema,
+    resendVerificationSchema,
 } from "../validators/auth.validator";
 
 const router = Router();
@@ -40,6 +43,17 @@ router.post(
     "/logout",
     authMiddleware,
     logout
+);
+
+router.get(
+    "/verify-email",
+    verifyEmail
+);
+
+router.post(
+    "/resend-verification",
+    validate(resendVerificationSchema),
+    resendVerification
 );
 
 export default router;
